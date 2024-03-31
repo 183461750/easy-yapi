@@ -169,6 +169,18 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
 
     private var trustHostsTextArea: JTextArea? = null
 
+    private var ecsbTokenLabel: JLabel? = null
+
+    private var ecsbServerTextField: JTextField? = null
+
+    private var ecsbTokenTextArea: JTextArea? = null
+
+    private var ecsbExportModeComboBox: JComboBox<String>? = null
+
+    private var ecsbReqBodyJson5CheckBox: JCheckBox? = null
+
+    private var ecsbResBodyJson5CheckBox: JCheckBox? = null
+
     //endregion general-----------------------------------------------------
 
     private val throttleHelper = ThrottleHelper()
@@ -239,10 +251,14 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
 
         this.loginModeCheckBox!!.onSelect {
             this.yapiTokenLabel!!.text = if (it) "projectIds:" else "tokens:"
+            this.ecsbTokenLabel!!.text = if (it) "projectIds:" else "tokens:"
         }
 
         yapiExportModeComboBox!!.model =
             DefaultComboBoxModel(YapiExportMode.values().mapToTypedArray { it.name })
+
+        ecsbExportModeComboBox!!.model =
+            DefaultComboBoxModel(EcsbExportMode.values().mapToTypedArray { it.name })
 
         logLevelComboBox!!.model = DefaultComboBoxModel(CommonSettingsHelper.CoarseLogLevel.editableValues())
 
@@ -290,12 +306,17 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
 
         this.yapiServerTextField!!.text = settings.yapiServer ?: ""
         this.yapiTokenTextArea!!.text = settings.yapiTokens ?: ""
+        this.ecsbServerTextField!!.text = settings.ecsbServer ?: ""
+        this.ecsbTokenTextArea!!.text = settings.ecsbTokens ?: ""
         this.enableUrlTemplatingCheckBox!!.isSelected = settings.enableUrlTemplating
         this.switchNoticeCheckBox!!.isSelected = settings.switchNotice
         this.loginModeCheckBox!!.isSelected = settings.loginMode
         this.yapiExportModeComboBox!!.selectedItem = settings.yapiExportMode
         this.yapiReqBodyJson5CheckBox!!.isSelected = settings.yapiReqBodyJson5
         this.yapiResBodyJson5CheckBox!!.isSelected = settings.yapiResBodyJson5
+        this.ecsbExportModeComboBox!!.selectedItem = settings.ecsbExportMode
+        this.ecsbReqBodyJson5CheckBox!!.isSelected = settings.ecsbReqBodyJson5
+        this.ecsbResBodyJson5CheckBox!!.isSelected = settings.ecsbResBodyJson5
 
         this.trustHostsTextArea!!.text = settings.trustHosts.joinToString(separator = "\n")
         this.maxDeepTextField!!.text = settings.inferMaxDeep.toString()
@@ -600,12 +621,17 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
         settings.inferMaxDeep = maxDeepTextField!!.text.toIntOrNull() ?: Settings.DEFAULT_INFER_MAX_DEEP
         settings.yapiServer = yapiServerTextField!!.text
         settings.yapiTokens = yapiTokenTextArea!!.text
+        settings.ecsbServer = ecsbServerTextField!!.text
+        settings.ecsbTokens = ecsbTokenTextArea!!.text
         settings.enableUrlTemplating = enableUrlTemplatingCheckBox!!.isSelected
         settings.switchNotice = switchNoticeCheckBox!!.isSelected
         settings.loginMode = loginModeCheckBox!!.isSelected
         settings.yapiExportMode = yapiExportModeComboBox!!.selectedItem as? String ?: YapiExportMode.ALWAYS_UPDATE.name
         settings.yapiReqBodyJson5 = yapiReqBodyJson5CheckBox!!.isSelected
         settings.yapiResBodyJson5 = yapiResBodyJson5CheckBox!!.isSelected
+        settings.ecsbExportMode = ecsbExportModeComboBox!!.selectedItem as? String ?: EcsbExportMode.ALWAYS_UPDATE.name
+        settings.ecsbReqBodyJson5 = ecsbReqBodyJson5CheckBox!!.isSelected
+        settings.ecsbResBodyJson5 = ecsbResBodyJson5CheckBox!!.isSelected
         settings.httpTimeOut =
             httpTimeOutTextField!!.text.toIntOrNull() ?: ConfigurableHttpClientProvider.defaultHttpTimeOut
         settings.useRecommendConfig = recommendedCheckBox!!.isSelected
@@ -620,6 +646,7 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
         settings.postmanWorkspace = settingsInstance?.postmanWorkspace
         settings.postmanExportMode = postmanExportModeComboBox!!.selected() ?: PostmanExportMode.COPY.name
         settings.yapiTokens = this.yapiTokenTextArea!!.text
+        settings.ecsbTokens = this.ecsbTokenTextArea!!.text
 
         readPostmanCollections(settings)
     }

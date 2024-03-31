@@ -75,6 +75,20 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
 
     //endregion
 
+    //region ecsb--------------------------
+
+    override var ecsbServer: String? = null
+
+    override var ecsbTokens: String? = null
+
+    override var ecsbExportMode: String = EcsbExportMode.ALWAYS_UPDATE.name
+
+    override var ecsbReqBodyJson5: Boolean = false
+
+    override var ecsbResBodyJson5: Boolean = false
+
+    //endregion
+
     //region http--------------------------
 
     //unit:s
@@ -149,12 +163,17 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
         if (selectedOnly != other.selectedOnly) return false
         if (yapiServer != other.yapiServer) return false
         if (yapiTokens != other.yapiTokens) return false
+        if (ecsbServer != other.ecsbServer) return false
+        if (ecsbTokens != other.ecsbTokens) return false
         if (enableUrlTemplating != other.enableUrlTemplating) return false
         if (switchNotice != other.switchNotice) return false
         if (loginMode != other.loginMode) return false
         if (yapiExportMode != other.yapiExportMode) return false
         if (yapiReqBodyJson5 != other.yapiReqBodyJson5) return false
         if (yapiResBodyJson5 != other.yapiResBodyJson5) return false
+        if (ecsbExportMode != other.ecsbExportMode) return false
+        if (ecsbReqBodyJson5 != other.ecsbReqBodyJson5) return false
+        if (ecsbResBodyJson5 != other.ecsbResBodyJson5) return false
         if (httpTimeOut != other.httpTimeOut) return false
         if (!trustHosts.contentEquals(other.trustHosts)) return false
         if (useRecommendConfig != other.useRecommendConfig) return false
@@ -194,12 +213,17 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
         result = 31 * result + selectedOnly.hashCode()
         result = 31 * result + (yapiServer?.hashCode() ?: 0)
         result = 31 * result + (yapiTokens?.hashCode() ?: 0)
+        result = 31 * result + (ecsbServer?.hashCode() ?: 0)
+        result = 31 * result + (ecsbTokens?.hashCode() ?: 0)
         result = 31 * result + enableUrlTemplating.hashCode()
         result = 31 * result + switchNotice.hashCode()
         result = 31 * result + loginMode.hashCode()
         result = 31 * result + yapiExportMode.hashCode()
         result = 31 * result + yapiReqBodyJson5.hashCode()
         result = 31 * result + yapiResBodyJson5.hashCode()
+        result = 31 * result + ecsbExportMode.hashCode()
+        result = 31 * result + ecsbReqBodyJson5.hashCode()
+        result = 31 * result + ecsbResBodyJson5.hashCode()
         result = 31 * result + httpTimeOut
         result = 31 * result + trustHosts.contentHashCode()
         result = 31 * result + useRecommendConfig.hashCode()
@@ -215,7 +239,7 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
     }
 
     override fun toString(): String {
-        return "Settings(methodDocEnable=$methodDocEnable, genericEnable=$genericEnable, feignEnable=$feignEnable, jaxrsEnable=$jaxrsEnable, actuatorEnable=$actuatorEnable, pullNewestDataBefore=$pullNewestDataBefore, postmanToken=$postmanToken, postmanWorkspace=$postmanWorkspace, postmanExportMode=$postmanExportMode, postmanCollections=$postmanCollections, wrapCollection=$wrapCollection, autoMergeScript=$autoMergeScript, postmanJson5FormatType='$postmanJson5FormatType', queryExpanded=$queryExpanded, formExpanded=$formExpanded, readGetter=$readGetter, readSetter=$readSetter, inferEnable=$inferEnable, inferMaxDeep=$inferMaxDeep, selectedOnly=$selectedOnly, yapiServer=$yapiServer, yapiTokens=$yapiTokens, enableUrlTemplating=$enableUrlTemplating, switchNotice=$switchNotice, loginMode=$loginMode, yapiExportMode=$yapiExportMode, yapiReqBodyJson5=$yapiReqBodyJson5, yapiResBodyJson5=$yapiResBodyJson5, httpTimeOut=$httpTimeOut, trustHosts=${trustHosts.contentToString()}, useRecommendConfig=$useRecommendConfig, recommendConfigs='$recommendConfigs', logLevel=$logLevel, logCharset='$logCharset', outputDemo=$outputDemo, outputCharset='$outputCharset', markdownFormatType='$markdownFormatType', builtInConfig=$builtInConfig), remoteConfig=$remoteConfig)"
+        return "Settings(methodDocEnable=$methodDocEnable, genericEnable=$genericEnable, feignEnable=$feignEnable, jaxrsEnable=$jaxrsEnable, actuatorEnable=$actuatorEnable, pullNewestDataBefore=$pullNewestDataBefore, postmanToken=$postmanToken, postmanWorkspace=$postmanWorkspace, postmanExportMode=$postmanExportMode, postmanCollections=$postmanCollections, wrapCollection=$wrapCollection, autoMergeScript=$autoMergeScript, postmanJson5FormatType='$postmanJson5FormatType', queryExpanded=$queryExpanded, formExpanded=$formExpanded, readGetter=$readGetter, readSetter=$readSetter, inferEnable=$inferEnable, inferMaxDeep=$inferMaxDeep, selectedOnly=$selectedOnly, yapiServer=$yapiServer, yapiTokens=$yapiTokens, ecsbServer=$ecsbServer, ecsbTokens=$ecsbTokens, enableUrlTemplating=$enableUrlTemplating, switchNotice=$switchNotice, loginMode=$loginMode, yapiExportMode=$yapiExportMode, yapiReqBodyJson5=$yapiReqBodyJson5, yapiResBodyJson5=$yapiResBodyJson5, ecsbExportMode=$ecsbExportMode, ecsbReqBodyJson5=$ecsbReqBodyJson5, ecsbResBodyJson5=$ecsbResBodyJson5, httpTimeOut=$httpTimeOut, trustHosts=${trustHosts.contentToString()}, useRecommendConfig=$useRecommendConfig, recommendConfigs='$recommendConfigs', logLevel=$logLevel, logCharset='$logCharset', outputDemo=$outputDemo, outputCharset='$outputCharset', markdownFormatType='$markdownFormatType', builtInConfig=$builtInConfig), remoteConfig=$remoteConfig)"
     }
 
     companion object {

@@ -68,9 +68,10 @@ class EnhancedConfigReader : BaseConfigReader() {
             synchronized(this) {
                 if (notInit) {
                     try {
-                        contextSwitchListener.onModuleChange {
-                            loadConfigList()
-                        }
+                        loadConfigList()
+//                        contextSwitchListener.onModuleChange {
+//                            loadConfigList()
+//                        }
                     } finally {
                         notInit = false
                     }

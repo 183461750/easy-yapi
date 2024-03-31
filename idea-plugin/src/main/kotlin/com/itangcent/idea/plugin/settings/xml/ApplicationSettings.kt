@@ -1,9 +1,6 @@
 package com.itangcent.idea.plugin.settings.xml
 
-import com.itangcent.idea.plugin.settings.MarkdownFormatType
-import com.itangcent.idea.plugin.settings.PostmanJson5FormatType
-import com.itangcent.idea.plugin.settings.Settings
-import com.itangcent.idea.plugin.settings.YapiExportMode
+import com.itangcent.idea.plugin.settings.*
 import com.itangcent.idea.plugin.settings.helper.RecommendConfigLoader
 import com.itangcent.idea.utils.Charsets
 
@@ -34,6 +31,12 @@ interface ApplicationSettingsSupport {
     var yapiExportMode: String
     var yapiReqBodyJson5: Boolean
     var yapiResBodyJson5: Boolean
+
+    var ecsbServer: String?
+    var ecsbTokens: String?
+    var ecsbExportMode: String
+    var ecsbReqBodyJson5: Boolean
+    var ecsbResBodyJson5: Boolean
 
     //unit:s
     var httpTimeOut: Int
@@ -77,6 +80,13 @@ interface ApplicationSettingsSupport {
         newSetting.yapiExportMode = this.yapiExportMode
         newSetting.yapiReqBodyJson5 = this.yapiReqBodyJson5
         newSetting.yapiResBodyJson5 = this.yapiResBodyJson5
+
+        newSetting.ecsbServer = this.ecsbServer
+        newSetting.ecsbTokens = this.ecsbTokens
+        newSetting.ecsbExportMode = this.ecsbExportMode
+        newSetting.ecsbReqBodyJson5 = this.ecsbReqBodyJson5
+        newSetting.ecsbResBodyJson5 = this.ecsbResBodyJson5
+
         newSetting.httpTimeOut = this.httpTimeOut
         newSetting.useRecommendConfig = this.useRecommendConfig
         newSetting.recommendConfigs = this.recommendConfigs
@@ -150,6 +160,18 @@ class ApplicationSettings : ApplicationSettingsSupport {
     override var yapiReqBodyJson5: Boolean = false
 
     override var yapiResBodyJson5: Boolean = false
+
+    //ecsb
+
+    override var ecsbServer: String? = null
+
+    override var ecsbTokens: String? = null
+
+    override var ecsbExportMode: String = EcsbExportMode.ALWAYS_UPDATE.name
+
+    override var ecsbReqBodyJson5: Boolean = false
+
+    override var ecsbResBodyJson5: Boolean = false
 
     //region http--------------------------
 

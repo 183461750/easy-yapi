@@ -51,6 +51,10 @@ class HttpSettingsHelper {
                 || trustHosts.contains(host)) {
             return true
         }
+        if (settings.ecsbServer == host
+                || trustHosts.contains(host)) {
+            return true
+        }
         if (!dumb) {
             val trustRet = messagesHelper.showYesNoDialog("Do you trust [$host]?",
                     "Trust Host", Messages.getQuestionIcon())
@@ -82,6 +86,13 @@ class HttpSettingsHelper {
             settings.yapiServer?.let { yapiServer ->
                 if (url.startsWith(yapiServer)) {
                     return yapiServer
+                }
+            }
+
+            //check if it belongs ecsbServer
+            settings.ecsbServer?.let { ecsbServer ->
+                if (url.startsWith(ecsbServer)) {
+                    return ecsbServer
                 }
             }
 

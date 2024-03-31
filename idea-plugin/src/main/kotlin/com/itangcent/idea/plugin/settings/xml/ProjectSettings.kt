@@ -16,12 +16,15 @@ interface ProjectSettingsSupport {
 
     var yapiTokens: String?
 
+    var ecsbTokens: String?
+
     fun copyTo(newSetting: ProjectSettingsSupport) {
         newSetting.postmanWorkspace = this.postmanWorkspace
         newSetting.postmanExportMode = this.postmanExportMode
         newSetting.postmanCollections = this.postmanCollections
         newSetting.postmanBuildExample = this.postmanBuildExample
         this.yapiTokens?.let { newSetting.yapiTokens = it }
+        this.ecsbTokens?.let { newSetting.ecsbTokens = it }
     }
 }
 
@@ -71,6 +74,8 @@ class ProjectSettings : ProjectSettingsSupport {
     override var postmanBuildExample: Boolean = true
 
     override var yapiTokens: String? = null
+
+    override var ecsbTokens: String? = null
 
     fun copy(): ProjectSettings {
         val projectSettings = ProjectSettings()

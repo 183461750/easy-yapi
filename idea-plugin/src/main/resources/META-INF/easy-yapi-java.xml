@@ -10,6 +10,10 @@
                     class="com.itangcent.idea.plugin.actions.YapiExportAction" text="ExportToYapi"
                     description="ExportToYapi">
             </action>
+            <action id="com.itangcent.idea.easy_api.actions.EcsbExportAction"
+                    class="com.itangcent.idea.plugin.actions.EcsbExportAction" text="ExportToEcsb"
+                    description="ExportToEcsb">
+            </action>
             <action id="com.itangcent.idea.easy_api.actions.MarkdownExportAction"
                     class="com.itangcent.idea.plugin.actions.MarkdownExportAction" text="ExportMarkdown"
                     description="ExportToMarkdown">
@@ -69,6 +73,10 @@
             <action id="com.itangcent.idea.easy_api.actions.YApiDashBoardAction"
                     class="com.itangcent.idea.plugin.actions.YapiDashBoardAction" text="YApiDashBoard"
                     description="YApiDashBoard">
+            </action>
+            <action id="com.itangcent.idea.easy_api.actions.EcsbDashBoardAction"
+                    class="com.itangcent.idea.plugin.actions.EcsbDashBoardAction" text="EcsbDashBoard"
+                    description="EcsbDashBoard">
             </action>
             <action id="com.itangcent.idea.easy_api.actions.ScriptExecutorAction"
                     class="com.itangcent.idea.plugin.actions.ScriptExecutorAction" text="ScriptExecutor"
