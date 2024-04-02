@@ -58,13 +58,13 @@ abstract class AbstractEcsbApiHelper : EcsbApiHelper {
 
     protected open fun findErrorMsg(res: String?): String? {
         if (res == null) return "no response"
-        if (StringUtils.isNotBlank(res) && res.contains("errmsg")) {
+        if (StringUtils.isNotBlank(res) && res.contains("errorMsg")) {
             val returnObj = GsonUtils.parseToJsonTree(res)
-            val errMsg = returnObj
-                .sub("errmsg")
+            val errorMsg = returnObj
+                .sub("errorMsg")
                 ?.asString
-            if (StringUtils.isNotBlank(errMsg) && !errMsg!!.contains("成功")) {
-                return errMsg
+            if (StringUtils.isNotBlank(errorMsg) && !errorMsg!!.contains("成功")) {
+                return errorMsg
             }
         }
         return null
@@ -140,33 +140,6 @@ abstract class AbstractEcsbApiHelper : EcsbApiHelper {
         return getProjectInfo(token, projectId)
     }
 
-    override fun copyApi(from: Map<String, String>, target: Map<String, String>) {
-        val fromToken = from.getToken() ?: throw IllegalArgumentException("no token be found in from")
-        val targetToken = target.getToken() ?: throw IllegalArgumentException("no token be found in target")
-        val targetCatId = target["catId"]
-        listApis(from) { api ->
-            val copyApi = HashMap(api)
-            copyApi.remove("_id")
-            if (targetCatId == null) {
-                val fromCatId = api["catid"]!!
-                val fromCartInfo = findCartById(fromToken, fromCatId.toString()) ?: return@listApis
-                val cartName = fromCartInfo["name"] ?: return@listApis
-                val cartInfo = getCartForFolder(
-                    Folder(
-                        name = cartName.toString(),
-                        attr = api["desc"]?.toString() ?: ""
-                    ), targetToken
-                ) ?: return@listApis
-                copyApi["catid"] = cartInfo.cartId
-            } else {
-                copyApi["catid"] = targetCatId
-            }
-            copyApi["token"] = targetToken
-            copyApi["switch_notice"] = ecsbSettingsHelper.switchNotice()
-            saveApiInfo(copyApi)
-        }
-    }
-
     private fun Map<String, String>.getToken(): String? {
         val token = this["token"]
         if (token != null) {
@@ -181,28 +154,6 @@ abstract class AbstractEcsbApiHelper : EcsbApiHelper {
         }
 
         return null
-    }
-
-    private fun listApis(from: Map<String, String>, api: (Map<String, Any?>) -> Unit) {
-        val fromToken = from.getToken() ?: throw IllegalArgumentException("no token be found in from")
-        val id = from["id"]
-        if (id != null) {
-            getApiInfo(fromToken, id)?.asHashMap()?.let(api)
-            return
-        }
-
-        val catId = from["catId"]
-        if (catId != null) {
-            listApis(fromToken, catId)?.map { it.asMap() }?.forEach(api)
-            return
-        }
-
-        val projectId = getProjectIdByToken(fromToken) ?: throw IllegalArgumentException("invalid token $fromToken")
-        val carts = findCarts(projectId, fromToken) ?: return
-        for (cart in carts) {
-            val cartId = (cart as? Map<*, *>)?.get("_id")?.toString() ?: continue
-            listApis(fromToken, cartId)?.map { it.asMap() }?.forEach(api)
-        }
     }
 
     open fun getByApi(url: String, dumb: Boolean = true): String? {
@@ -264,16 +215,4 @@ abstract class AbstractEcsbApiHelper : EcsbApiHelper {
         val NULL_PROJECT: JsonElement = JsonNull.INSTANCE
         val TOKEN_REGEX = Regex("(token=.*?)(?=&|$)")
     }
-}
-
-fun EcsbApiHelper.findCartById(token: String, catId: String): Map<*, *>? {
-    val projectId = getProjectIdByToken(token) ?: throw IllegalArgumentException("invalid token $token")
-    val carts = findCarts(projectId, token) ?: throw IllegalArgumentException("invalid token $token")
-    for (cart in carts) {
-        val cartId = (cart as? Map<*, *>)?.get("_id")?.toString() ?: continue
-        if (cartId == catId) {
-            return cart
-        }
-    }
-    return null
 }

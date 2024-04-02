@@ -79,6 +79,8 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
 
     override var ecsbServer: String? = null
 
+    override var ecsbJwttoken: String? = null
+
     override var ecsbTokens: String? = null
 
     override var ecsbExportMode: String = EcsbExportMode.ALWAYS_UPDATE.name
@@ -164,6 +166,7 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
         if (yapiServer != other.yapiServer) return false
         if (yapiTokens != other.yapiTokens) return false
         if (ecsbServer != other.ecsbServer) return false
+        if (ecsbJwttoken != other.ecsbJwttoken) return false
         if (ecsbTokens != other.ecsbTokens) return false
         if (enableUrlTemplating != other.enableUrlTemplating) return false
         if (switchNotice != other.switchNotice) return false
@@ -214,6 +217,7 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
         result = 31 * result + (yapiServer?.hashCode() ?: 0)
         result = 31 * result + (yapiTokens?.hashCode() ?: 0)
         result = 31 * result + (ecsbServer?.hashCode() ?: 0)
+        result = 31 * result + (ecsbJwttoken?.hashCode() ?: 0)
         result = 31 * result + (ecsbTokens?.hashCode() ?: 0)
         result = 31 * result + enableUrlTemplating.hashCode()
         result = 31 * result + switchNotice.hashCode()
@@ -239,7 +243,7 @@ class Settings : ProjectSettingsSupport, ApplicationSettingsSupport {
     }
 
     override fun toString(): String {
-        return "Settings(methodDocEnable=$methodDocEnable, genericEnable=$genericEnable, feignEnable=$feignEnable, jaxrsEnable=$jaxrsEnable, actuatorEnable=$actuatorEnable, pullNewestDataBefore=$pullNewestDataBefore, postmanToken=$postmanToken, postmanWorkspace=$postmanWorkspace, postmanExportMode=$postmanExportMode, postmanCollections=$postmanCollections, wrapCollection=$wrapCollection, autoMergeScript=$autoMergeScript, postmanJson5FormatType='$postmanJson5FormatType', queryExpanded=$queryExpanded, formExpanded=$formExpanded, readGetter=$readGetter, readSetter=$readSetter, inferEnable=$inferEnable, inferMaxDeep=$inferMaxDeep, selectedOnly=$selectedOnly, yapiServer=$yapiServer, yapiTokens=$yapiTokens, ecsbServer=$ecsbServer, ecsbTokens=$ecsbTokens, enableUrlTemplating=$enableUrlTemplating, switchNotice=$switchNotice, loginMode=$loginMode, yapiExportMode=$yapiExportMode, yapiReqBodyJson5=$yapiReqBodyJson5, yapiResBodyJson5=$yapiResBodyJson5, ecsbExportMode=$ecsbExportMode, ecsbReqBodyJson5=$ecsbReqBodyJson5, ecsbResBodyJson5=$ecsbResBodyJson5, httpTimeOut=$httpTimeOut, trustHosts=${trustHosts.contentToString()}, useRecommendConfig=$useRecommendConfig, recommendConfigs='$recommendConfigs', logLevel=$logLevel, logCharset='$logCharset', outputDemo=$outputDemo, outputCharset='$outputCharset', markdownFormatType='$markdownFormatType', builtInConfig=$builtInConfig), remoteConfig=$remoteConfig)"
+        return "Settings(methodDocEnable=$methodDocEnable, genericEnable=$genericEnable, feignEnable=$feignEnable, jaxrsEnable=$jaxrsEnable, actuatorEnable=$actuatorEnable, pullNewestDataBefore=$pullNewestDataBefore, postmanToken=$postmanToken, postmanWorkspace=$postmanWorkspace, postmanExportMode=$postmanExportMode, postmanCollections=$postmanCollections, wrapCollection=$wrapCollection, autoMergeScript=$autoMergeScript, postmanJson5FormatType='$postmanJson5FormatType', queryExpanded=$queryExpanded, formExpanded=$formExpanded, readGetter=$readGetter, readSetter=$readSetter, inferEnable=$inferEnable, inferMaxDeep=$inferMaxDeep, selectedOnly=$selectedOnly, yapiServer=$yapiServer, yapiTokens=$yapiTokens, ecsbServer=$ecsbServer, ecsbJwttoken=$ecsbJwttoken, ecsbTokens=$ecsbTokens, enableUrlTemplating=$enableUrlTemplating, switchNotice=$switchNotice, loginMode=$loginMode, yapiExportMode=$yapiExportMode, yapiReqBodyJson5=$yapiReqBodyJson5, yapiResBodyJson5=$yapiResBodyJson5, ecsbExportMode=$ecsbExportMode, ecsbReqBodyJson5=$ecsbReqBodyJson5, ecsbResBodyJson5=$ecsbResBodyJson5, httpTimeOut=$httpTimeOut, trustHosts=${trustHosts.contentToString()}, useRecommendConfig=$useRecommendConfig, recommendConfigs='$recommendConfigs', logLevel=$logLevel, logCharset='$logCharset', outputDemo=$outputDemo, outputCharset='$outputCharset', markdownFormatType='$markdownFormatType', builtInConfig=$builtInConfig), remoteConfig=$remoteConfig)"
     }
 
     companion object {

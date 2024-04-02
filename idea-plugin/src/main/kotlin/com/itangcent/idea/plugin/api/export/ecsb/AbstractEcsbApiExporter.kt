@@ -62,40 +62,12 @@ open class AbstractEcsbApiExporter {
         return ecsbSettingsHelper.getPrivateToken(module, false)
     }
 
-    protected open fun getCartForResource(resource: Any): CartInfo? {
-
-        //get token
-        val module = actionContext.callInReadUI { moduleHelper!!.findModule(resource) } ?: return null
-        val privateToken = getTokenOfModule(module)
-        if (privateToken == null) {
-            logger.info("No token be found for $module")
-            return null
-        }
-
-        //get cart
-        return getCartForResource(resource, privateToken)
-    }
-
-    protected fun getCartForResource(resource: Any, privateToken: String): CartInfo? {
-        val folder = formatFolderHelper!!.resolveFolder(resource)
-        return getCartForFolder(folder, privateToken)
-    }
-
-    protected open fun getCartForFolder(folder: Folder, privateToken: String): CartInfo? {
-        return ecsbApiHelper.getCartForFolder(folder, privateToken)
-    }
-
-    fun exportDoc(doc: Doc): Boolean {
+    open fun exportDoc(doc: Doc): Boolean {
         if (doc.resource == null) return false
-        val cartInfo = getCartForResource(doc.resource!!) ?: return false
-        return exportDoc(doc, cartInfo.privateToken!!)
-    }
 
-    open fun exportDoc(doc: Doc, privateToken: String): Boolean {
         val items = ecsbFormatter!!.doc2Items(doc)
         var ret = false
         items.forEach { apiInfo ->
-            apiInfo["token"] = privateToken
             apiInfo["switch_notice"] = ecsbSettingsHelper.switchNotice()
 
             val suvRuleContext = SuvRuleContext(doc.resource())

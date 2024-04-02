@@ -7,7 +7,6 @@ import com.itangcent.common.utils.notNullOrBlank
 import com.itangcent.common.utils.notNullOrEmpty
 import com.itangcent.idea.plugin.settings.EcsbExportMode
 import com.itangcent.idea.plugin.settings.SettingBinder
-import com.itangcent.idea.plugin.settings.YapiExportMode
 import com.itangcent.idea.plugin.settings.update
 import com.itangcent.idea.swing.MessagesHelper
 import com.itangcent.intellij.config.ConfigReader
@@ -42,6 +41,9 @@ class EcsbSettingsHelper {
     @Volatile
     private var server: String? = null
 
+    @Volatile
+    private var jwttoken: String? = null
+
     protected var cacheLock: ReadWriteLock = ReentrantReadWriteLock()
 
     //region server----------------------------------------------------
@@ -66,8 +68,8 @@ class EcsbSettingsHelper {
             }
         if (!dumb) {
             val ecsbServer =
-                messagesHelper.showInputDialog("Input server of yapi",
-                    "Server Of Yapi", Messages.getInformationIcon())
+                messagesHelper.showInputDialog("Input server of ecsb",
+                    "Server Of Ecsb", Messages.getInformationIcon())
                     ?.removeSuffix("/")
             if (ecsbServer.isNullOrBlank()) return null
             server = ecsbServer
@@ -80,6 +82,39 @@ class EcsbSettingsHelper {
     }
 
     //endregion server----------------------------------------------------
+
+    //region jwttoken----------------------------------------------------
+
+    fun getJwttoken(dumb: Boolean = true): String? {
+        if (jwttoken.notNullOrBlank()) return jwttoken
+        configReader.first("ecsb.jwttoken")?.trim()?.removeSuffix("/")
+            ?.takeIf { it.notNullOrBlank() }
+            ?.let {
+                jwttoken = it
+                return jwttoken
+            }
+        settingBinder.read().ecsbJwttoken?.trim()?.removeSuffix("/")
+            ?.takeIf { it.notNullOrBlank() }
+            ?.let {
+                jwttoken = it
+                return jwttoken
+            }
+        if (!dumb) {
+            val ecsbJwttoken =
+                messagesHelper.showInputDialog("Input jwttoken of ecsb",
+                    "Jwttoken Of Ecsb", Messages.getInformationIcon())
+                    ?.removeSuffix("/")
+            if (ecsbJwttoken.isNullOrBlank()) return null
+            jwttoken = ecsbJwttoken
+            settingBinder.update {
+                this.ecsbJwttoken = ecsbJwttoken
+            }
+            return ecsbJwttoken
+        }
+        return null
+    }
+
+    //endregion jwttoken----------------------------------------------------
 
     //region tokens----------------------------------------------
 

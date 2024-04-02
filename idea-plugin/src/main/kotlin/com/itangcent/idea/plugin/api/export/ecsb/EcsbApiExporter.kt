@@ -42,19 +42,4 @@ class EcsbApiExporter : AbstractEcsbApiExporter() {
         }
     }
 
-    //privateToken+folderName -> CartInfo
-    private val folderNameCartMap: ConcurrentHashMap<String, CartInfo> = ConcurrentHashMap()
-
-    @Synchronized
-    override fun getCartForFolder(folder: Folder, privateToken: String): CartInfo? {
-        var cartInfo = folderNameCartMap["$privateToken${folder.name}"]
-        if (cartInfo != null) return cartInfo
-
-        cartInfo = super.getCartForFolder(folder, privateToken)
-        if (cartInfo != null) {
-            folderNameCartMap["$privateToken${folder.name}"] = cartInfo
-        }
-        return cartInfo
-    }
-
 }

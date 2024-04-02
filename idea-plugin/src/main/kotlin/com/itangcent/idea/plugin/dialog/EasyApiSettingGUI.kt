@@ -173,6 +173,8 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
 
     private var ecsbServerTextField: JTextField? = null
 
+    private var ecsbJwttokenTextField: JTextField? = null
+
     private var ecsbTokenTextArea: JTextArea? = null
 
     private var ecsbExportModeComboBox: JComboBox<String>? = null
@@ -307,6 +309,7 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
         this.yapiServerTextField!!.text = settings.yapiServer ?: ""
         this.yapiTokenTextArea!!.text = settings.yapiTokens ?: ""
         this.ecsbServerTextField!!.text = settings.ecsbServer ?: ""
+        this.ecsbJwttokenTextField!!.text = settings.ecsbJwttoken ?: ""
         this.ecsbTokenTextArea!!.text = settings.ecsbTokens ?: ""
         this.enableUrlTemplatingCheckBox!!.isSelected = settings.enableUrlTemplating
         this.switchNoticeCheckBox!!.isSelected = settings.switchNotice
@@ -622,6 +625,7 @@ class EasyApiSettingGUI : AbstractEasyApiSettingGUI() {
         settings.yapiServer = yapiServerTextField!!.text
         settings.yapiTokens = yapiTokenTextArea!!.text
         settings.ecsbServer = ecsbServerTextField!!.text
+        settings.ecsbJwttoken = ecsbJwttokenTextField!!.text
         settings.ecsbTokens = ecsbTokenTextArea!!.text
         settings.enableUrlTemplating = enableUrlTemplatingCheckBox!!.isSelected
         settings.switchNotice = switchNoticeCheckBox!!.isSelected

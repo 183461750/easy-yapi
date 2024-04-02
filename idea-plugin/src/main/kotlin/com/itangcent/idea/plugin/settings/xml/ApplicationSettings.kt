@@ -33,6 +33,7 @@ interface ApplicationSettingsSupport {
     var yapiResBodyJson5: Boolean
 
     var ecsbServer: String?
+    var ecsbJwttoken: String?
     var ecsbTokens: String?
     var ecsbExportMode: String
     var ecsbReqBodyJson5: Boolean
@@ -164,6 +165,8 @@ class ApplicationSettings : ApplicationSettingsSupport {
     //ecsb
 
     override var ecsbServer: String? = null
+
+    override var ecsbJwttoken: String? = null
 
     override var ecsbTokens: String? = null
 

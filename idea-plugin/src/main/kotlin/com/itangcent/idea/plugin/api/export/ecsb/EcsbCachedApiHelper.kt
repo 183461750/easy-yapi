@@ -44,12 +44,6 @@ open class EcsbCachedApiHelper : DefaultEcsbApiHelper() {
         }
     }
 
-    override fun findCarts(projectId: String, token: String): List<Any?>? {
-        return cartCache.computeIfAbsent(projectId) {
-            return@computeIfAbsent super.findCarts(projectId, token) ?: ArrayList<Any?>()
-        }
-    }
-
     override fun listApis(token: String, catId: String, limit: Int?): JsonArray? {
         return apiCache.computeIfAbsent("$token-$catId") {
             return@computeIfAbsent super.listApis(token, catId, limit) ?: JsonArray()

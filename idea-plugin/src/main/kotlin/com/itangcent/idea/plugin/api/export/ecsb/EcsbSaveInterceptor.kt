@@ -42,7 +42,7 @@ val ALWAYS_UPDATE_API_SAVE_INTERCEPTOR = AlwaysUpdateEcsbSaveInterceptor()
 @ConditionOnSetting("ecsbExportMode", havingValue = "NEVER_UPDATE")
 class NeverUpdateEcsbSaveInterceptor : EcsbSaveInterceptor {
     override fun beforeSaveApi(apiHelper: EcsbApiHelper, apiInfo: HashMap<String, Any?>): Boolean {
-        return !apiHelper.existed(apiInfo)
+        return true
     }
 }
 
@@ -61,9 +61,7 @@ class AlwaysAskEcsbSaveInterceptor : EcsbSaveInterceptor {
         if (selectedEcsbSaveInterceptor != null) {
             return selectedEcsbSaveInterceptor!!.beforeSaveApi(apiHelper, apiInfo)
         }
-        if (!apiHelper.existed(apiInfo)) {
-            return true
-        }
+
         val valueHolder = ValueHolder<Boolean>()
         val context = ActionContext.getContext() ?: return true
         context.instance(MessagesHelper::class).showAskWithApplyAllDialog(

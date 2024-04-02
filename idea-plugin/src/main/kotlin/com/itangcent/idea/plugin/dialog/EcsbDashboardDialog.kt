@@ -337,14 +337,6 @@ class EcsbDashboardDialog : AbstractApiDashboardDialog() {
         actionContext.runAsync {
             projectNode.status = NodeStatus.Loading
             actionContext.withBoundary {
-                val carts = ecsbApiHelper.findCarts(projectId.toString(), projectNode.getProjectToken())
-                if (carts.isNullOrEmpty()) {
-                    return@withBoundary
-                }
-                for (cart in carts) {
-                    val ecsbCartNode = EcsbCartNodeData(cart as HashMap<String, Any?>)
-                    projectNode.addSubNodeData(ecsbCartNode)
-                }
                 projectNode.getSubNodeData()?.forEach {
                     (it as? EcsbCartNodeData)?.let { cart -> loadEcsbCart(cart) }
                 }
@@ -460,8 +452,6 @@ class EcsbDashboardDialog : AbstractApiDashboardDialog() {
                     Messages.getInformationIcon()
                 )
                 if (cartName.isNullOrBlank()) return@runInSwingUI
-
-                ecsbApiHelper.addCart(ecsbNodeData.getProjectToken()!!, cartName, "")
 
                 syncEcsbNode(ecsbNodeData.getRootNodeData())
             }
@@ -761,7 +751,7 @@ class EcsbDashboardDialog : AbstractApiDashboardDialog() {
             return
         }
 
-        val docHandle: (Doc) -> Unit = { doc -> ecsbApiDashBoardExporter!!.exportDoc(doc, privateToken) }
+        val docHandle: (Doc) -> Unit = { doc -> ecsbApiDashBoardExporter!!.exportDoc(doc) }
 
         fromProjectData.docs(docHandle)
         logger.info("exported success")

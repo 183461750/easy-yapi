@@ -25,7 +25,6 @@ import com.itangcent.idea.plugin.api.export.ecsb.*
 import com.itangcent.idea.plugin.api.export.http.HttpClientExporter
 import com.itangcent.idea.plugin.api.export.markdown.MarkdownFormatter
 import com.itangcent.idea.plugin.api.export.postman.*
-import com.itangcent.idea.plugin.api.export.ecsb.CartInfo
 import com.itangcent.idea.plugin.config.EnhancedConfigReader
 import com.itangcent.idea.plugin.dialog.SuvApiExportDialog
 import com.itangcent.idea.plugin.rule.SuvRuleParser
@@ -451,21 +450,6 @@ open class EcsbSuvApiExporter {
         }
 
         class SuvEcsbApiExporter : AbstractEcsbApiExporter() {
-
-            //privateToken+folderName -> CartInfo
-            private val folderNameCartMap: HashMap<String, CartInfo> = HashMap()
-
-            @Synchronized
-            override fun getCartForFolder(folder: Folder, privateToken: String): CartInfo? {
-                var cartInfo = folderNameCartMap["$privateToken${folder.name}"]
-                if (cartInfo != null) return cartInfo
-
-                cartInfo = super.getCartForFolder(folder, privateToken)
-                if (cartInfo != null) {
-                    folderNameCartMap["$privateToken${folder.name}"] = cartInfo
-                }
-                return cartInfo
-            }
 
         }
     }
