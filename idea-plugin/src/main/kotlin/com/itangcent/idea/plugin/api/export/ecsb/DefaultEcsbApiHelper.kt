@@ -119,37 +119,29 @@ open class DefaultEcsbApiHelper : AbstractEcsbApiHelper(), EcsbApiHelper {
         var sit2 = "";
         sit2 = "sit2";
 
+        // TODO @Fa 需要搞成读取配置文件
         var addTxtAbbreviationPrefix = "";
 // addTxtAbbreviationPrefix = "marketing";
 
-//        var path = "/process/bpmCallback";
+        // url路径
         var path = apiInfo?.get("path") as String
-//        var apiDesc = "工作流回调接口";
+        // url名称
         var apiDesc = apiInfo?.get("title") as String
+        // TODO @Fa 需要搞成读取配置文件
         var host = "http://sitapi.jxs.crb.cn"
 
-// hostPrefix = "/crb-mall-api-sec";
+        // TODO @Fa 需要搞成读取配置文件
         var hostPrefix = "/crb-marketing-api-sec";
 
         logger.info("save apiInfo ecsbReqValue: path:$path apiDesc:$apiDesc")
 
-
-        // TODO @Fa 这里需要处理路径有三段甚至更多的情况
-
-//        // 获取斜杆的数量
-//        var slashCount = path.count { it == '/' }
-//        // 将所有斜杆后面的单词大写并且去掉斜杆
-//        for (i in 0 until slashCount) {
-//            var index = path.indexOf('/', i + 1)
-//            if (index == -1) {
-//                break
-//            }
-//            var word = path.substring(i + 1, index)
-//            path = path.replaceRange(i + 1, index, word.uppercase())
-//        }
-        var secondSlashIndex = path.indexOf('/', 1);
-
-        var pathHump = path.substring(1, secondSlashIndex) + path.substring(secondSlashIndex + 1).replaceFirstChar { it.uppercase() }
+        var pathHump = path
+        var secondSlashIndex = pathHump.indexOf('/', 1)
+        do {
+            pathHump = pathHump.substring(0, secondSlashIndex) + pathHump.substring(secondSlashIndex + 1).replaceFirstChar { it.uppercase() }
+            secondSlashIndex = pathHump.indexOf('/', 1)
+        } while (secondSlashIndex > 0);
+        pathHump = pathHump.substring(1)
 
         pathHump = if (addTxtAbbreviationPrefix.isNotBlank()) {
             addTxtAbbreviationPrefix + pathHump.replaceFirstChar { it.uppercase() }
