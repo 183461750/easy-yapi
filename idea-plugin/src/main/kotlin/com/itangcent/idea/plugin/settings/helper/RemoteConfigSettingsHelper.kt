@@ -41,7 +41,14 @@ class RemoteConfigSettingsHelper {
         return settingBinder.read().remoteConfig
             .parse()
             .filter { it.first }
-            .map { loadConfig(it.second) }
+            .mapNotNull {
+                try {
+                    loadConfig(it.second)
+                } catch (e: Exception) {
+                    logger.error("failed to load config: ${it.second}")
+                    null
+                }
+            }
     }
 
     fun loadConfig(url: String): ConfigContent {
@@ -52,7 +59,7 @@ class RemoteConfigSettingsHelper {
     }
 
     private fun getContentTypeFromUrl(url: String): String {
-        return url.substringAfterLast('.').ifBlank { "properties" }
+        return url.substringBefore('?').substringAfterLast('.').ifBlank { "properties" }
     }
 
     fun refreshConfig(url: String): String? {
